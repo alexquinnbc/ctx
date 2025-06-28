@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LLM Context Engineering Toolkit</title>
+  <style>
+    :root {
+      --bg: #1f1f2e;
+      --glass: rgba(255, 255, 255, 0.05);
+      --text: #ffffff;
+      --accent: #00d9ff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #232526, #414345);
+      color: var(--text);
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    nav button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: var(--glass);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    nav button:hover, nav button.active {
+      background: var(--accent);
+      color: #000;
+    }
+
+    section {
+      display: none;
+      padding: 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    iframe {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      background: var(--glass);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🧠 LLM Context Engineering Toolkit</h1>
+    <p>Explore browser-native tools for prompt mastery and cognitive design</p>
+  </header>
+
+  <nav>
+    <button onclick="showTool(0)" class="active">1️⃣ Choreography</button>
+    <button onclick="showTool(1)">2️⃣ DNA Map</button>
+    <button onclick="showTool(2)">3️⃣ Command Stack</button>
+    <button onclick="showTool(3)">4️⃣ Warp Lens</button>
+  </nav>
+
+  <section id="tool0" class="active">
+    <iframe src="cognitive_choreography_prompt_builder.html"></iframe>
+  </section>
+
+  <section id="tool1">
+    <iframe src="prompt_dna_map.html"></iframe>
+  </section>
+
+  <section id="tool2">
+    <iframe src="command_stack_protocol.html"></iframe>
+  </section>
+
+  <section id="tool3">
+    <iframe src="lens.html"></iframe>
+  </section>
+
+  <script>
+    function showTool(index) {
+      document.querySelectorAll("section").forEach((sec, i) => {
+        sec.classList.toggle("active", i === index);
+      });
+      document.querySelectorAll("nav button").forEach((btn, i) => {
+        btn.classList.toggle("active", i === index);
+      });
+    }
+  </script>
+</body>
+</html>
