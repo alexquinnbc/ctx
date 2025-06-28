@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prompt DNA Map</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #ffd166;
+      --glass-shadow: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #000000, #434343);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    .label {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 1.5rem;
+      white-space: pre-line;
+    }
+
+    .dna-sequence {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      font-family: monospace;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Prompt DNA Map</h1>
+    <p>Visualize the genetic structure of your prompt</p>
+  </header>
+
+  <div class="section">
+    <div class="label">Task</div>
+    <input type="text" id="task" placeholder="What do you want the LLM to do? (e.g., Analyze a business model)" />
+
+    <div class="label">Role</div>
+    <input type="text" id="role" placeholder="What role should the LLM assume? (e.g., Senior Product Strategist)" />
+
+    <div class="label">Goal</div>
+    <input type="text" id="goal" placeholder="What is the outcome you want? (e.g., Actionable product advice)" />
+
+    <div class="label">Constraints</div>
+    <input type="text" id="constraints" placeholder="Rules, limits, tone, word count, etc." />
+
+    <div class="label">Style</div>
+    <select id="style">
+      <option value="">Choose a tone/style</option>
+      <option value="Formal">Formal</option>
+      <option value="Conversational">Conversational</option>
+      <option value="Instructive">Instructive</option>
+      <option value="Analytical">Analytical</option>
+      <option value="Bold and Persuasive">Bold and Persuasive</option>
+    </select>
+
+    <div class="label">Memory/Context</div>
+    <textarea rows="3" id="memory" placeholder="Optional: Add any background information or context."></textarea>
+
+    <button onclick="buildDNA()">Generate Prompt DNA</button>
+
+    <div class="output dna-sequence" id="dnaOutput"></div>
+  </div>
+
+  <script>
+    function buildDNA() {
+      const task = document.getElementById("task").value.trim();
+      const role = document.getElementById("role").value.trim();
+      const goal = document.getElementById("goal").value.trim();
+      const constraints = document.getElementById("constraints").value.trim();
+      const style = document.getElementById("style").value.trim();
+      const memory = document.getElementById("memory").value.trim();
+
+      let dna = "🧬 Prompt DNA Sequence:\n";
+      if (role) dna += `🧠 Role: ${role}\n`;
+      if (task) dna += `🔧 Task: ${task}\n`;
+      if (goal) dna += `🎯 Goal: ${goal}\n`;
+      if (constraints) dna += `⚠️ Constraints: ${constraints}\n`;
+      if (style) dna += `🗣️ Style: ${style}\n`;
+      if (memory) dna += `🧩 Memory Context: ${memory}\n`;
+
+      document.getElementById("dnaOutput").textContent = dna;
+    }
+  </script>
+</body>
+</html>

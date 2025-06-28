@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cognitive Choreography</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #8bc6ec;
+      --glass-shadow: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #232526, #414345);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 1000px;
+      padding: 1rem;
+    }
+
+    .card {
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 1rem;
+      width: 160px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .output {
+      margin-top: 2rem;
+      padding: 1rem;
+      max-width: 90%;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 16px 0 var(--glass-shadow);
+      white-space: pre-line;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1.5rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cognitive Choreography</h1>
+    <p>Build your prompt by assembling cognitive moves</p>
+  </header>
+
+  <div class="container" id="moveCards">
+    <div class="card" data-step="Analyze">Analyze</div>
+    <div class="card" data-step="Compare">Compare</div>
+    <div class="card" data-step="Reflect">Reflect</div>
+    <div class="card" data-step="Summarize">Summarize</div>
+    <div class="card" data-step="Generate">Generate</div>
+    <div class="card" data-step="Critique">Critique</div>
+    <div class="card" data-step="Reframe">Reframe</div>
+    <div class="card" data-step="Decide">Decide</div>
+  </div>
+
+  <div class="steps" id="assembledSteps"></div>
+  <button onclick="generatePrompt()">Generate Prompt</button>
+
+  <div class="output" id="finalPrompt"></div>
+
+  <script>
+    const cards = document.querySelectorAll(".card");
+    const stepsContainer = document.getElementById("assembledSteps");
+    const output = document.getElementById("finalPrompt");
+    let steps = [];
+
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        const step = card.getAttribute("data-step");
+        steps.push(step);
+        const stepElement = document.createElement("div");
+        stepElement.className = "card";
+        stepElement.textContent = step;
+        stepsContainer.appendChild(stepElement);
+      });
+    });
+
+    function generatePrompt() {
+      if (steps.length === 0) {
+        output.textContent = "Please select cognitive moves to generate a prompt.";
+        return;
+      }
+
+      const prompt = steps.map(step => {
+        switch (step) {
+          case "Analyze":
+            return "Analyze the key components of the topic.";
+          case "Compare":
+            return "Compare this with similar examples or cases.";
+          case "Reflect":
+            return "Reflect on potential implications or insights.";
+          case "Summarize":
+            return "Summarize the main points concisely.";
+          case "Generate":
+            return "Generate a solution or creative output based on the insights.";
+          case "Critique":
+            return "Critique the current perspective with counterarguments.";
+          case "Reframe":
+            return "Reframe the issue from a different perspective.";
+          case "Decide":
+            return "Decide on the most strategic course of action.";
+          default:
+            return "";
+        }
+      }).join("\n");
+
+      output.textContent = "Prompt:\n" + prompt;
+    }
+  </script>
+</body>
+</html>
