@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semantic Warp Lens</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #ef476f;
+      --glass-shadow: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      resize: vertical;
+    }
+
+    select, button {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    select {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      width: 100%;
+    }
+
+    button {
+      background: var(--accent-color);
+      color: black;
+    }
+
+    .output {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semantic Warp Lens</h1>
+    <p>Reframe your prompt using emotional and strategic lenses</p>
+  </header>
+
+  <div class="section">
+    <label for="original">Enter Your Original Prompt</label>
+    <textarea id="original" rows="4" placeholder="Type your original prompt here..."></textarea>
+
+    <label for="lens">Choose a Lens</label>
+    <select id="lens">
+      <option value="">-- Select a Lens --</option>
+      <option value="curiosity">🔍 Curiosity</option>
+      <option value="urgency">⏱️ Urgency</option>
+      <option value="compassion">❤️ Compassion</option>
+      <option value="skepticism">🧠 Skepticism</option>
+      <option value="inspiration">🌟 Inspiration</option>
+      <option value="systems">🔧 Systems Thinking</option>
+    </select>
+
+    <button onclick="warpPrompt()">Warp It</button>
+
+    <div class="output" id="warpedOutput"></div>
+  </div>
+
+  <script>
+    function warpPrompt() {
+      const text = document.getElementById("original").value.trim();
+      const lens = document.getElementById("lens").value;
+      const output = document.getElementById("warpedOutput");
+
+      if (!text || !lens) {
+        output.textContent = "Please enter a prompt and select a lens.";
+        return;
+      }
+
+      let modifier = "";
+
+      switch (lens) {
+        case "curiosity":
+          modifier = "Reframe the prompt to spark curiosity, exploration, and open-ended thinking.";
+          break;
+        case "urgency":
+          modifier = "Make the prompt feel urgent, time-sensitive, and action-oriented.";
+          break;
+        case "compassion":
+          modifier = "Frame the prompt through empathy, human impact, and emotional depth.";
+          break;
+        case "skepticism":
+          modifier = "Add critical thinking, challenge assumptions, and raise important doubts.";
+          break;
+        case "inspiration":
+          modifier = "Reframe the prompt to be uplifting, motivational, and visionary.";
+          break;
+        case "systems":
+          modifier = "Shift the prompt into a systemic analysis across layers, feedback loops, and interconnected elements.";
+          break;
+      }
+
+      const warped = `🔁 Semantic Warp Lens Applied (${lens}):\n${modifier}\n\nOriginal Prompt:\n${text}\n\nWarped Prompt:\n${modifier} ${text}`;
+      output.textContent = warped;
+    }
+  </script>
+</body>
+</html>
