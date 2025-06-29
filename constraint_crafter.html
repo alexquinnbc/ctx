@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Constraint Crafter</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #00f5d4;
+      --glass-shadow: rgba(255, 255, 255, 0.15);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    textarea, select {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      resize: vertical;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🧩 Constraint Crafter</h1>
+    <p>Wrap your ideas with creative limits to unlock innovation</p>
+  </header>
+
+  <div class="section">
+    <label for="basePrompt">Enter Your Prompt or Goal</label>
+    <textarea id="basePrompt" rows="3" placeholder="E.g., Design a course to teach teenagers financial literacy"></textarea>
+
+    <label for="difficultySelect">Choose Constraint Difficulty</label>
+    <select id="difficultySelect">
+      <option value="Easy">Easy</option>
+      <option value="Moderate">Moderate</option>
+      <option value="Hard">Hard</option>
+      <option value="Extreme">Extreme</option>
+    </select>
+
+    <button onclick="applyConstraints()">🛠 Apply Constraints</button>
+
+    <div class="output" id="constraintOutput"></div>
+  </div>
+
+  <script>
+    function getConstraints(difficulty) {
+      const constraintPools = {
+        Easy: [
+          "Use only text-based output.",
+          "Keep the solution under 5 steps.",
+          "Limit explanation to 100 words."
+        ],
+        Moderate: [
+          "Use only metaphors to describe the solution.",
+          "Assume the user is a 10-year-old.",
+          "You can only use visuals, no text.",
+          "Assume the project must be completed in 24 hours."
+        ],
+        Hard: [
+          "No internet, no electricity.",
+          "Only use physical tools (pen, paper, etc).",
+          "Must be built for use in a refugee camp.",
+          "Target audience doesn't speak your language."
+        ],
+        Extreme: [
+          "Solution must fit on a post-it note.",
+          "Explain through interpretive dance metaphors.",
+          "Must be delivered using Morse code.",
+          "Budget: $0. No tech. No tools. No language."
+        ]
+      };
+
+      return constraintPools[difficulty] || [];
+    }
+
+    function applyConstraints() {
+      const prompt = document.getElementById("basePrompt").value.trim();
+      const difficulty = document.getElementById("difficultySelect").value;
+      const output = document.getElementById("constraintOutput");
+
+      if (!prompt) {
+        output.textContent = "Please enter a prompt to constrain.";
+        return;
+      }
+
+      const pool = getConstraints(difficulty);
+      const randomConstraints = pool.sort(() => 0.5 - Math.random()).slice(0, 2);
+
+      const constrainedPrompt = `🎯 Original Prompt:\n"${prompt}"\n\n🧩 Constraints (${difficulty}):\n- ${randomConstraints.join("\n- ")}\n\n💡 Try to solve or rewrite your prompt with these creative limitations.`;
+
+      output.textContent = constrainedPrompt;
+    }
+  </script>
+
+</body>
+</html>
