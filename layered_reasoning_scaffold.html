@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Layered Reasoning Scaffold</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #00f2c3;
+      --glass-shadow: rgba(255, 255, 255, 0.15);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .layer {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(6px);
+    }
+
+    .output {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Layered Reasoning Scaffold</h1>
+    <p>Build structured prompts with clear reasoning layers</p>
+  </header>
+
+  <div class="section">
+    <label for="mainClaim">Enter Your Central Question or Claim</label>
+    <textarea id="mainClaim" rows="3" placeholder="E.g., Should we implement universal basic income?"></textarea>
+
+    <div id="layersContainer"></div>
+
+    <button onclick="addLayer()">➕ Add Reasoning Layer</button>
+    <button onclick="buildPrompt()">🚀 Generate Structured Prompt</button>
+
+    <div class="output" id="resultPrompt"></div>
+  </div>
+
+  <script>
+    let layerCount = 0;
+
+    function addLayer() {
+      const container = document.getElementById("layersContainer");
+      const div = document.createElement("div");
+      div.className = "layer";
+      div.innerHTML = `
+        <label>Layer ${layerCount + 1}: Reasoning Step</label>
+        <textarea rows="2" placeholder="E.g., Consider the economic sustainability..."></textarea>
+      `;
+      container.appendChild(div);
+      layerCount++;
+    }
+
+    function buildPrompt() {
+      const claim = document.getElementById("mainClaim").value.trim();
+      if (!claim) {
+        document.getElementById("resultPrompt").textContent = "Please enter a central question or claim.";
+        return;
+      }
+
+      const layers = Array.from(document.querySelectorAll(".layer textarea"))
+        .map((ta, i) => `Step ${i + 1}: ${ta.value.trim()}`)
+        .filter(text => text.length > 0);
+
+      const result = `🧱 Structured Reasoning Prompt
+Main Question: ${claim}
+
+${layers.join("
+")}
+
+Final Prompt:
+Based on the above reasoning structure, analyze and respond to: ${claim}`;
+      document.getElementById("resultPrompt").textContent = result;
+    }
+  </script>
+
+</body>
+</html>

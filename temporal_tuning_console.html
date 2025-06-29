@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temporal Tuning Console</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #fca311;
+      --glass-shadow: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      resize: vertical;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    input[type=range] {
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    button {
+      padding: 0.6rem 1.5rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Temporal Tuning Console</h1>
+    <p>Reframe your prompt across time horizons: Now, Near, Far</p>
+  </header>
+
+  <div class="section">
+    <label for="basePrompt">Enter Your Base Prompt</label>
+    <textarea id="basePrompt" rows="4" placeholder="E.g., How should we design our AI roadmap?"></textarea>
+
+    <label for="timeRange">Select Time Horizon</label>
+    <input type="range" id="timeRange" min="0" max="2" step="1" value="0" />
+    <div class="slider-labels">
+      <span>NOW (Immediate)</span>
+      <span>NEAR (Mid-Term)</span>
+      <span>FAR (Long-Term)</span>
+    </div>
+
+    <button onclick="generateTemporally()">Transform Prompt</button>
+
+    <div class="output" id="timeOutput"></div>
+  </div>
+
+  <script>
+    function generateTemporally() {
+      const text = document.getElementById("basePrompt").value.trim();
+      const range = parseInt(document.getElementById("timeRange").value);
+      const output = document.getElementById("timeOutput");
+
+      if (!text) {
+        output.textContent = "Please enter a base prompt.";
+        return;
+      }
+
+      const modes = [
+        "Focus on the immediate implications, decisions, or consequences of this prompt.",
+        "Frame this prompt for the next 3–12 months: strategic near-term priorities, adaptive planning, and iterative improvements.",
+        "Expand this prompt to explore 3–10 year outcomes, trajectory design, foresight, and systemic evolution."
+      ];
+
+      const horizon = ["NOW", "NEAR", "FAR"][range];
+      const modifier = modes[range];
+      const reframed = `🕒 Temporal Frame: ${horizon}
+${modifier}
+
+Original Prompt:
+${text}
+
+Temporally Tuned Prompt:
+${modifier} ${text}`;
+      output.textContent = reframed;
+    }
+  </script>
+</body>
+</html>

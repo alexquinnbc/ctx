@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prompt Lens Lab</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #ffd166;
+      --glass-shadow: rgba(255, 255, 255, 0.15);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      white-space: pre-wrap;
+    }
+
+    .lens-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .lens-options label {
+      background: rgba(255,255,255,0.1);
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Prompt Lens Lab</h1>
+    <p>Transform any prompt using strategic thinking lenses</p>
+  </header>
+
+  <div class="section">
+    <label for="basePrompt">Enter Your Prompt</label>
+    <textarea id="basePrompt" rows="3" placeholder="E.g., Build an app that reduces food waste."></textarea>
+
+    <div class="lens-options">
+      <label><input type="checkbox" value="Strategy">Strategy</label>
+      <label><input type="checkbox" value="Empathy">Empathy</label>
+      <label><input type="checkbox" value="Inversion">Inversion</label>
+      <label><input type="checkbox" value="Constraint">Constraint</label>
+      <label><input type="checkbox" value="Critique">Critique</label>
+      <label><input type="checkbox" value="Expansion">Expansion</label>
+      <label><input type="checkbox" value="Storytelling">Storytelling</label>
+    </div>
+
+    <button onclick="transformPrompt()">🎯 Apply Lens</button>
+
+    <div class="output" id="lensOutput"></div>
+  </div>
+
+  <script>
+    function transformPrompt() {
+      const prompt = document.getElementById("basePrompt").value.trim();
+      const output = document.getElementById("lensOutput");
+      const checked = Array.from(document.querySelectorAll('.lens-options input:checked')).map(el => el.value);
+
+      if (!prompt || checked.length === 0) {
+        output.textContent = "Enter a prompt and select at least one lens.";
+        return;
+      }
+
+      const instructions = {
+        Strategy: "What are the most scalable, monetizable, and strategic angles?",
+        Empathy: "How does this prompt resonate with different users (e.g., children, elders, busy workers)?",
+        Inversion: "How could this idea fail or produce the opposite of its intended result?",
+        Constraint: "How would you solve this using only pen and paper or no-code tools?",
+        Critique: "What assumptions are being made and how might they be challenged?",
+        Expansion: "What additional features, audiences, or use cases could be layered onto this idea?",
+        Storytelling: "How could this idea be framed as a story or scenario for better emotional impact?"
+      };
+
+      let transformed = "🔬 Prompt Lens Lab Output\n\n";
+      checked.forEach(lens => {
+        transformed += `🔹 ${lens} Lens:\n${instructions[lens]}\nPrompt: ${prompt}\n\n`;
+      });
+
+      output.textContent = transformed;
+    }
+  </script>
+
+</body>
+</html>

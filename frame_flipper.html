@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Frame Flipper</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #ff6bcb;
+      --glass-shadow: rgba(255, 255, 255, 0.15);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #2b5876, #4e4376);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    textarea, select {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      resize: vertical;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌀 Frame Flipper</h1>
+    <p>Reframe any idea using new metaphors and cognitive lenses</p>
+  </header>
+
+  <div class="section">
+    <label for="basePrompt">Enter Your Prompt or Concept</label>
+    <textarea id="basePrompt" rows="3" placeholder="E.g., Create a habit tracker for productivity"></textarea>
+
+    <label for="frameSelect">Choose a Frame</label>
+    <select id="frameSelect">
+      <option value="Theater Production">Theater Production</option>
+      <option value="Biological Organism">Biological Organism</option>
+      <option value="Battle Plan">Battle Plan</option>
+      <option value="Game Design">Game Design</option>
+      <option value="Heist Plan">Heist Plan</option>
+      <option value="Gardening System">Gardening System</option>
+      <option value="Musical Orchestra">Musical Orchestra</option>
+    </select>
+
+    <button onclick="flipFrame()">🔄 Flip Frame</button>
+
+    <div class="output" id="flipOutput"></div>
+  </div>
+
+  <script>
+    function flipFrame() {
+      const input = document.getElementById("basePrompt").value.trim();
+      const frame = document.getElementById("frameSelect").value;
+      const output = document.getElementById("flipOutput");
+
+      if (!input) {
+        output.textContent = "Please enter a concept or prompt to flip.";
+        return;
+      }
+
+      const frames = {
+        "Theater Production": "Reframe this prompt as if it's being executed on stage, with roles, scripts, scenes, and cues.",
+        "Biological Organism": "Interpret this idea as if it were a living organism with cells, systems, growth, and mutation.",
+        "Battle Plan": "Reimagine this as a strategic battle: who are the enemies, what are your weapons, what's the battlefield?",
+        "Game Design": "Transform this into a video game: what are the levels, rules, players, bosses, and rewards?",
+        "Heist Plan": "Frame this as a heist operation: who are the crew, what's the objective, what's the timing and obstacles?",
+        "Gardening System": "Treat this as a garden: what are you planting, pruning, watering, harvesting, or composting?",
+        "Musical Orchestra": "Think of this like an orchestra: what instruments, tempo, conductor, sections and harmony are involved?"
+      };
+
+      const description = frames[frame] || "Reframe this prompt in a new metaphor.";
+
+      const flipped = `🎭 Frame: ${frame}
+
+${description}
+
+Prompt:
+"${input}"`;
+
+      output.textContent = flipped;
+    }
+  </script>
+
+</body>
+</html>

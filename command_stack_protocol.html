@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Command Stack Protocol (CSP)</title>
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --text-color: #ffffff;
+      --accent-color: #06d6a0;
+      --glass-shadow: rgba(255, 255, 255, 0.2);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section {
+      margin: 1rem auto;
+      padding: 1rem;
+      width: 90%;
+      max-width: 900px;
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    }
+
+    .card {
+      background: var(--bg-color);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      box-shadow: 0 4px 12px var(--glass-shadow);
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .output {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      white-space: pre-line;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background: var(--accent-color);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Command Stack Protocol</h1>
+    <p>Build prompts by stacking modular commands</p>
+  </header>
+
+  <div class="section">
+    <div class="stack" id="commands">
+      <div class="card" data-command="Set role to expert analyst">🔧 Set Role</div>
+      <div class="card" data-command="Define the task clearly">📝 Define Task</div>
+      <div class="card" data-command="Override previous tone to formal">🗣️ Set Tone</div>
+      <div class="card" data-command="Add constraint: max 200 words">⚠️ Add Constraint</div>
+      <div class="card" data-command="Request comparison with alternatives">📊 Add Comparison</div>
+      <div class="card" data-command="Include step-by-step reasoning">🔍 Add Reasoning</div>
+      <div class="card" data-command="Request example or case study">📎 Add Example</div>
+      <div class="card" data-command="Summarize with key takeaways">📌 Summarize</div>
+    </div>
+
+    <div class="stack" id="stackedCommands"></div>
+
+    <button onclick="generateCommandStack()">Build Prompt Stack</button>
+
+    <div class="output" id="commandOutput"></div>
+  </div>
+
+  <script>
+    const commandCards = document.querySelectorAll(".card");
+    const stackContainer = document.getElementById("stackedCommands");
+    const output = document.getElementById("commandOutput");
+    let stack = [];
+
+    commandCards.forEach(card => {
+      card.addEventListener("click", () => {
+        const cmd = card.getAttribute("data-command");
+        stack.push(cmd);
+        const cmdCard = document.createElement("div");
+        cmdCard.className = "card";
+        cmdCard.textContent = cmd;
+        stackContainer.appendChild(cmdCard);
+      });
+    });
+
+    function generateCommandStack() {
+      if (stack.length === 0) {
+        output.textContent = "Click on the command modules to build your stack.";
+        return;
+      }
+
+      const prompt = "🧠 Prompt Stack:\n" + stack.map((s, i) => `Step ${i+1}: ${s}`).join("\n");
+      output.textContent = prompt;
+    }
+  </script>
+</body>
+</html>
